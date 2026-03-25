@@ -14,6 +14,11 @@ export class Point2D {
       Math.abs(this.x - other.x) ** 2 + Math.abs(this.y - other.y) ** 2,
     );
   }
+
+  move(dx: number, dy: number) {
+    this.x += dx;
+    this.y += dy;
+  }
 }
 
 export class Circle implements Shape {

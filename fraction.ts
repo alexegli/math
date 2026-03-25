@@ -2,16 +2,19 @@ import { roundTo } from "./utils.ts";
 
 export class Fraction {
   constructor(
-    private numerator: number,
-    private denominator: number,
-  ) {}
+  private numerator: number,
+  private denominator: number,
+) {
+    if (denominator === 0) {
+      throw new Error("Denominator cannot be zero");
+    } 
+  }
 
-  public add(other: Fraction) {
-    const newNumerator =
-      this.numerator * other.denominator + other.numerator * this.denominator;
-    const newDenominator = this.denominator * other.denominator;
-    this.numerator = newNumerator;
-    this.denominator = newDenominator;
+  public add(other: Fraction): Fraction {
+  const newNumerator =
+    this.numerator * other.denominator + other.numerator * this.denominator;
+  const newDenominator = this.denominator * other.denominator;
+  return new Fraction(newNumerator, newDenominator);
   }
 
   public subtract(other: Fraction) {
@@ -53,6 +56,9 @@ export class Fraction {
     const denominator = Number.parseFloat(parts[1].trim());
     if (Number.isNaN(numerator) || Number.isNaN(denominator)) {
       throw new Error(`non-numeric numerator/denominator`);
+    }
+    if (denominator === 0) {
+      throw new Error("Denominator cannot be zero");
     }
     return new Fraction(numerator, denominator);
   }
