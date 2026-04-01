@@ -1,6 +1,36 @@
 import { assertAlmostEquals, assertEquals } from "@std/assert";
 import { Fraction } from "./fraction.ts";
 
+const fractionTests = [
+  { numerator: 2, denominator: 4, expected: "1/2" },
+  { numerator: 10, denominator: 5, expected: "2/1" },
+  { numerator: 36, denominator: 60, expected: "3/5" },
+  { numerator: 7, denominator: 1, expected: "7/1" },
+  { numerator: 0, denominator: 5, expected: "0/1" },
+];
+
+for (const { numerator, denominator, expected } of fractionTests) {
+  Deno.test(`Fraction(${numerator}, ${denominator}) -> ${expected}`, () => {
+    const frac = new Fraction(numerator, denominator);
+    assertEquals(frac.toString(), expected);
+  });
+}
+
+
+Deno.test("Bruch kürzen 1/1", () => {
+  const frac = new Fraction(1, 1);
+  frac.cancel();
+  assertEquals(frac.numerator, 1);
+  assertEquals(frac.denominator, 1);
+});
+
+Deno.test("Bruch kürzen 14/21 -> 2/3", () => {
+  const frac = new Fraction(14, 21);
+  frac.cancel();
+  assertEquals(frac.numerator, 2);
+  assertEquals(frac.denominator, 3);
+});
+
 Deno.test("fraction of 1/1 is 1.0", () => {
   // Arrange
   const fraction = new Fraction(1, 1);
@@ -11,6 +41,7 @@ Deno.test("fraction of 1/1 is 1.0", () => {
   // Assert
   assertEquals(float, 1.0);
 });
+
 
 Deno.test("fraction of 2/3 is roughly 0.67", () => {
   // Arrange
